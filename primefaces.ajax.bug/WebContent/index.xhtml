@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+</h:head>
+<h:body>
+	<h:form id="entity_form">
+		<p:dataTable id="bagsTable" var="row"
+			value="#{logisticsBagListController.model.bags}" editable="true"
+			editMode="cell" widgetVar="bagsTable" rowKey="row.id"
+			rowIndexVar="rowIndex" emptyMessage="No bags">
+			<p:column headerText="Number" style="width:4%;text-align:center;">
+				<h:outputText id="rowId" value="#{rowIndex+1}" />
+			</p:column>
+			<p:column headerText="Edit" style="width:4%">
+				<h:commandLink>
+					<span class="fa fa-plus"></span>
+					<f:ajax listener="#{logisticsBagListController.addRow(rowIndex)}"
+						execute="@this" render="bagsTable" />
+				</h:commandLink>
+				<h:commandLink
+					onclick="if (! confirm('Are you sure to delete?')) return false">
+					<span class="fa fa-remove"></span>
+					<f:ajax
+						listener="#{logisticsBagListController.deleteRow(rowIndex)}"
+						execute="@this" render="bagsTable" />
+				</h:commandLink>
+			</p:column>
+			<p:column headerText="Length(m)" style="width:8%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{row.length}" styleClass="cell-output"
+							id="length_output">
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{row.length}" styleClass="form-control"
+							autocomplete="false" id="length_input">
+							<p:ajax event="change"
+								listener="#{logisticsBagListController.dimensionChanged(row,rowIndex)}" />
+						</h:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Width(m)" style="width:8%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{row.width}" styleClass="cell-output"
+							id="width_output">
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{row.width}" styleClass="form-control"
+							autocomplete="false" id="width_input">
+							<p:ajax event="change"
+								listener="#{logisticsBagListController.dimensionChanged(row,rowIndex)}" />
+						</h:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Height(m)" style="width:12%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{row.height}" styleClass="cell-output"
+							id="height_output">
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{row.height}" styleClass="form-control"
+							autocomplete="false" id="height_input">
+							<p:ajax event="change"
+								listener="#{logisticsBagListController.dimensionChanged(row,rowIndex)}" />
+						</h:inputText>
+					</f:facet>
+				</p:cellEditor>
+				<f:facet name="footer" style="text-align:left">
+						Total：
+				</f:facet>
+			</p:column>
+			<p:column headerText="Volum(&#x33a5;)" style="width:12%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{row.vol}" styleClass="cell-output"
+							id="vol_output">
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{row.vol}" styleClass="form-control"
+							autocomplete="false" id="vol_input">
+						</h:inputText>
+					</f:facet>
+				</p:cellEditor>
+				<f:facet name="footer" style="text-align:left">
+					<h:outputText id="total_vol" style="text-align:right"
+						value="#{logisticsBagListController.model.vol}">
+					</h:outputText>
+				</f:facet>
+			</p:column>
+			<p:column headerText="Weight(kg)" style="width:8%">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{row.weight}" styleClass="cell-output"
+							id="weight_output">
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{row.weight}" styleClass="form-control"
+							autocomplete="false" id="weight_input">
+							<p:ajax event="change"
+								listener="#{logisticsBagListController.weightChanged(row,rowIndex)}" />
+						</h:inputText>
+					</f:facet>
+				</p:cellEditor>
+				<f:facet name="footer" style="text-align:left">
+					<h:outputText id="total_weight" style="text-align:right"
+						value="#{logisticsBagListController.model.weight}">
+					</h:outputText>
+				</f:facet>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
